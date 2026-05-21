@@ -18,5 +18,6 @@ import {
   ],
   controllers: [PratosCardapioController],
   providers: [PratosCardapioService],
+  exports: [PratosCardapioService],
 })
 export class PratosCardapioModule {}

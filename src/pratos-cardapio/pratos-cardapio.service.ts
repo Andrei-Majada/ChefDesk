@@ -73,6 +73,10 @@ export class PratosCardapioService {
     return this.toResponse(prato);
   }
 
+  async findByIds(ids: Types.ObjectId[]) {
+    return this.pratoCardapioModel.find({ _id: { $in: ids } }).exec();
+  }
+
   async update(id: string, updatePratosCardapioDto: UpdatePratosCardapioDto) {
     this.validateObjectId(id);
 

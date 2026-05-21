@@ -1,11 +1,12 @@
-import { IsInt, IsString, MaxLength } from 'class-validator';
+import { IsMongoId, IsString, MaxLength } from 'class-validator';
+import { Types } from 'mongoose';
 
 export class CreateEscolhasMenuDto {
-  @IsInt()
-  idEvento!: number;
+  @IsMongoId()
+  idEvento!: Types.ObjectId;
 
-  @IsInt()
-  idPrato!: number;
+  @IsMongoId()
+  idPrato!: Types.ObjectId;
 
   @IsString()
   @MaxLength(50)

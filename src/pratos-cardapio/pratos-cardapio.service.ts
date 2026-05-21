@@ -1,7 +1,7 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
@@ -25,7 +25,12 @@ export class PratosCardapioService {
       nome: createPratosCardapioDto.nome,
       categoria: createPratosCardapioDto.categoria,
       descricao: createPratosCardapioDto.descricao,
+      imagem: createPratosCardapioDto.imagem,
+      preco: createPratosCardapioDto.preco,
+      recomendacaoChef: createPratosCardapioDto.recomendacaoChef ?? false,
       status: createPratosCardapioDto.status ?? true,
+      especialidadeEstrelada:
+        createPratosCardapioDto.especialidadeEstrelada ?? false,
     });
 
     return this.toResponse(prato);
@@ -46,7 +51,7 @@ export class PratosCardapioService {
     const pratos = await this.pratoCardapioModel
       .find(query)
       .sort({
-        especialidadeEstrelada: -1,
+        recomendacaoChef: -1,
         nome: 1,
       })
       .exec();
@@ -102,10 +107,13 @@ export class PratosCardapioService {
     return {
       id: prato._id.toString(),
       nome: prato.nome,
-      categoria: prato.categoria,
       descricao: prato.descricao,
-      status: prato.status,
+      imagem: prato.imagem,
+      preco: prato.preco,
+      categoria: prato.categoria,
+      recomendacaoChef: prato.recomendacaoChef,
       especialidadeEstrelada: prato.especialidadeEstrelada,
+      status: prato.status,
     };
   }
 

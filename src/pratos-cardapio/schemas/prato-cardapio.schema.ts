@@ -24,6 +24,20 @@ export class PratoCardapio {
   @Prop()
   descricao?: string;
 
+  @Prop()
+  imagem?: string;
+
+  @Prop({
+    required: true,
+    min: 0,
+  })
+  preco!: number;
+
+  @Prop({
+    default: false,
+  })
+  recomendacaoChef!: boolean;
+
   @Prop({
     default: true,
   })

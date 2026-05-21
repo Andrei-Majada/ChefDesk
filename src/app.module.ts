@@ -10,6 +10,7 @@ import { EventosOrcamentosModule } from './eventos-orcamentos/eventos-orcamentos
 import { EscolhasMenuModule } from './escolhas-menu/escolhas-menu.module';
 import { PersonalizacoesServicoModule } from './personalizacoes-servico/personalizacoes-servico.module';
 import { ConfiguracoesCockpitModule } from './configuracoes-cockpit/configuracoes-cockpit.module';
+import { CategoriasMenuModule } from './categorias-menu/categorias-menu.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ConfiguracoesCockpitModule } from './configuracoes-cockpit/configuracoe
     EscolhasMenuModule,
     PersonalizacoesServicoModule,
     ConfiguracoesCockpitModule,
+    CategoriasMenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],

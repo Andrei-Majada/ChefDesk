@@ -1,4 +1,11 @@
-import { IsBoolean, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+} from 'class-validator';
 
 export class CreatePratosCardapioDto {
   @IsString()
@@ -14,6 +21,22 @@ export class CreatePratosCardapioDto {
   descricao?: string;
 
   @IsOptional()
+  @IsString()
+  imagem?: string;
+
+  @IsNumber()
+  @Min(0)
+  preco!: number;
+
+  @IsOptional()
+  @IsBoolean()
+  recomendacaoChef?: boolean;
+
+  @IsOptional()
   @IsBoolean()
   status?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  especialidadeEstrelada?: boolean;
 }

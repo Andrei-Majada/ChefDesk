@@ -6,7 +6,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientesModule } from './clientes/clientes.module';
 import { PratosCardapioModule } from './pratos-cardapio/pratos-cardapio.module';
-import { EventosOrcamentosModule } from './eventos-orcamentos/eventos-orcamentos.module';
 import { PersonalizacoesServicoModule } from './personalizacoes-servico/personalizacoes-servico.module';
 import { CategoriasMenuModule } from './categorias-menu/categorias-menu.module';
 import { OrcamentoDraftsModule } from './orcamento-draft/orcamento-draft.module';
@@ -43,7 +42,6 @@ import { NotificationsModule } from './notifications/notifications.module';
 
     ClientesModule,
     PratosCardapioModule,
-    EventosOrcamentosModule,
     PersonalizacoesServicoModule,
     CategoriasMenuModule,
     OrcamentoDraftsModule,

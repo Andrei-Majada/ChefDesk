@@ -3,50 +3,58 @@ import { HydratedDocument } from 'mongoose';
 
 export type PratoCardapioDocument = HydratedDocument<PratoCardapio>;
 
-@Schema({
-  timestamps: true,
-  collection: 'pratos_cardapio',
-})
+export enum CategoriaPrato {
+  COLD_STARTER = 'coldStarter',
+  HOT_STARTER = 'hotStarter',
+  MAIN_COURSE = 'mainCourse',
+  DESSERT = 'dessert',
+}
+
+@Schema({ timestamps: true })
 export class PratoCardapio {
   @Prop({
     required: true,
+    type: String,
     maxlength: 100,
+    trim: true,
   })
   nome!: string;
 
   @Prop({
     required: true,
-    maxlength: 50,
-    index: true,
+    type: String,
+    unique: true,
+    trim: true,
   })
-  categoria!: string;
-
-  @Prop()
-  descricao?: string;
-
-  @Prop()
-  imagem?: string;
+  slug!: string;
 
   @Prop({
     required: true,
-    min: 0,
+    type: String,
+    enum: Object.values(CategoriaPrato),
   })
-  preco!: number;
+  categoria!: CategoriaPrato;
 
   @Prop({
-    default: false,
+    required: false,
+    type: String,
+    trim: true,
   })
-  recomendacaoChef!: boolean;
+  descricao?: string;
 
   @Prop({
+    required: false,
+    type: [String],
+    default: [],
+  })
+  tags!: string[];
+
+  @Prop({
+    required: false,
+    type: Boolean,
     default: true,
   })
   status!: boolean;
-
-  @Prop({
-    default: false,
-  })
-  especialidadeEstrelada!: boolean;
 }
 
 export const PratoCardapioSchema = SchemaFactory.createForClass(PratoCardapio);

@@ -1,6 +1,9 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateEventosOrcamentoDto } from './create-eventos-orcamento.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum } from 'class-validator';
+import { StatusOrcamento } from '../schemas/evento-orcamento.schema';
 
-export class UpdateEventosOrcamentoDto extends PartialType(
-  CreateEventosOrcamentoDto,
-) {}
+export class UpdateStatusOrcamentoDto {
+  @ApiProperty({ example: StatusOrcamento.EM_ANALISE, enum: StatusOrcamento })
+  @IsEnum(StatusOrcamento)
+  status!: StatusOrcamento;
+}

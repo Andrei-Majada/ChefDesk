@@ -22,6 +22,11 @@ export class PratosCardapioController {
     return this.pratosCardapioService.create(createPratosCardapioDto);
   }
 
+  @Get('menu-options')
+  getMenuOptions() {
+    return this.pratosCardapioService.getMenuOptions();
+  }
+
   @Get()
   findAll(@Query() filters: FilterPratosCardapioDto) {
     return this.pratosCardapioService.findAll(filters);

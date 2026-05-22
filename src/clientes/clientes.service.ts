@@ -77,8 +77,9 @@ export class ClientesService {
       id: cliente._id.toString(),
       nome: cliente.nome,
       email: cliente.email,
-      telefone: cliente.telefone,
-      status: cliente.status,
+      whatsapp: cliente.whatsapp,
+      cep: cliente.cep,
+      endereco: cliente.endereco,
     };
   }
 

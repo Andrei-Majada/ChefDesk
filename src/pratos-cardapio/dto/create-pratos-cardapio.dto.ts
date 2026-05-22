@@ -1,42 +1,44 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
   IsBoolean,
-  IsNumber,
+  IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
-  Min,
 } from 'class-validator';
+import { CategoriaPrato } from '../schemas/prato-cardapio.schema';
 
 export class CreatePratosCardapioDto {
+  @ApiProperty({ example: 'Carpaccio de Carne' })
   @IsString()
+  @IsNotEmpty()
   @MaxLength(100)
   nome!: string;
 
+  @ApiProperty({ example: 'carpaccio-carne' })
   @IsString()
-  @MaxLength(50)
-  categoria!: string;
+  @IsNotEmpty()
+  slug!: string;
 
-  @IsOptional()
+  @ApiProperty({ example: CategoriaPrato.COLD_STARTER, enum: CategoriaPrato })
+  @IsEnum(CategoriaPrato)
+  categoria!: CategoriaPrato;
+
+  @ApiPropertyOptional({ example: 'Entrada fria com carpaccio de carne.' })
   @IsString()
+  @IsOptional()
   descricao?: string;
 
+  @ApiPropertyOptional({ example: ['Clássico', 'Leve'] })
+  @IsArray()
+  @IsString({ each: true })
   @IsOptional()
-  @IsString()
-  imagem?: string;
+  tags?: string[];
 
-  @IsNumber()
-  @Min(0)
-  preco!: number;
-
-  @IsOptional()
+  @ApiPropertyOptional({ example: true })
   @IsBoolean()
-  recomendacaoChef?: boolean;
-
   @IsOptional()
-  @IsBoolean()
   status?: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  especialidadeEstrelada?: boolean;
 }

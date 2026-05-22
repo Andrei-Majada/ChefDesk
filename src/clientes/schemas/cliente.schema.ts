@@ -3,35 +3,48 @@ import { HydratedDocument } from 'mongoose';
 
 export type ClienteDocument = HydratedDocument<Cliente>;
 
-@Schema({
-  timestamps: true,
-  collection: 'clientes',
-})
+@Schema({ timestamps: true })
 export class Cliente {
   @Prop({
     required: true,
-    maxlength: 100,
+    type: String,
+    maxlength: 150,
+    trim: true,
   })
   nome!: string;
 
   @Prop({
     required: true,
-    maxlength: 100,
-    lowercase: true,
+    type: String,
+    maxlength: 20,
     trim: true,
   })
-  email!: string;
+  whatsapp!: string;
 
   @Prop({
     required: false,
-    maxlength: 20,
+    type: String,
+    maxlength: 150,
+    trim: true,
+    lowercase: true,
   })
-  telefone?: string;
+  email?: string;
 
   @Prop({
-    default: true,
+    required: false,
+    type: String,
+    maxlength: 10,
+    trim: true,
   })
-  status!: boolean;
+  cep?: string;
+
+  @Prop({
+    required: false,
+    type: String,
+    maxlength: 255,
+    trim: true,
+  })
+  endereco?: string;
 }
 
 export const ClienteSchema = SchemaFactory.createForClass(Cliente);

@@ -22,7 +22,7 @@ export class EventosOrcamentosController {
     description: 'Salva os dados do evento preenchidos pelo usuário.',
   })
   @ApiBody({
-    type: CreateEventosOrcamentoDto,
+    type: () => CreateEventosOrcamentoDto,
   })
   @ApiCreatedResponse({
     description: 'Evento salvo com sucesso.',

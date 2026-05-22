@@ -7,10 +7,15 @@ import { AppService } from './app.service';
 import { ClientesModule } from './clientes/clientes.module';
 import { PratosCardapioModule } from './pratos-cardapio/pratos-cardapio.module';
 import { EventosOrcamentosModule } from './eventos-orcamentos/eventos-orcamentos.module';
-import { EscolhasMenuModule } from './escolhas-menu/escolhas-menu.module';
 import { PersonalizacoesServicoModule } from './personalizacoes-servico/personalizacoes-servico.module';
-import { ConfiguracoesCockpitModule } from './configuracoes-cockpit/configuracoes-cockpit.module';
 import { CategoriasMenuModule } from './categorias-menu/categorias-menu.module';
+import { OrcamentoDraftsModule } from './orcamento-draft/orcamento-draft.module';
+import { OrcamentosModule } from './orcamentos/orcamentos.module';
+import { LeadsModule } from './leads/leads.module';
+import { OptionsModule } from './options/options.module';
+import { PricingModule } from './pricing/pricing.module';
+import { ApiModule } from './api/api.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -39,10 +44,15 @@ import { CategoriasMenuModule } from './categorias-menu/categorias-menu.module';
     ClientesModule,
     PratosCardapioModule,
     EventosOrcamentosModule,
-    EscolhasMenuModule,
     PersonalizacoesServicoModule,
-    ConfiguracoesCockpitModule,
     CategoriasMenuModule,
+    OrcamentoDraftsModule,
+    OrcamentosModule,
+    LeadsModule,
+    OptionsModule,
+    PricingModule,
+    ApiModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,103 +1,204 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
+  IsBoolean,
   IsDateString,
-  IsInt,
-  IsMongoId,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   MaxLength,
-  Min,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { StatusOrcamento } from '../schemas/evento-orcamento.schema';
+
+class ClienteResumoDto {
+  @ApiProperty({ example: 'Andrei Majada' })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(150)
+  nome!: string;
+
+  @ApiProperty({ example: '53991473935' })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(20)
+  whatsapp!: string;
+
+  @ApiPropertyOptional({ example: 'andrei@email.com' })
+  @IsString()
+  @IsOptional()
+  @MaxLength(150)
+  email?: string;
+}
+
+class RestricoesAlimentaresDto {
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  possuiRestricoes!: boolean;
+
+  @ApiProperty({ example: [] })
+  @IsArray()
+  itens!: string[];
+
+  @ApiPropertyOptional({ example: 'Sem camarão.' })
+  @IsString()
+  @IsOptional()
+  observacoes?: string;
+}
+
+class MenuSelecionadoDto {
+  @ApiPropertyOptional({ example: 'carpaccio-carne' })
+  @IsString()
+  @IsOptional()
+  coldStarter?: string;
+
+  @ApiPropertyOptional({ example: 'caldinho-camarao' })
+  @IsString()
+  @IsOptional()
+  hotStarter?: string;
+
+  @ApiPropertyOptional({ example: 'risoto-abobora' })
+  @IsString()
+  @IsOptional()
+  mainCourse?: string;
+
+  @ApiPropertyOptional({ example: 'panna-cotta' })
+  @IsString()
+  @IsOptional()
+  dessert?: string;
+}
+
+class PersonalizacaoServicoDto {
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  temDecoracao!: boolean;
+
+  @ApiProperty({ example: 2 })
+  @IsNumber()
+  qtdGarcons!: number;
+
+  @ApiProperty({ example: 240 })
+  @IsNumber()
+  custoGarcons!: number;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  mudouProteina!: boolean;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  duplicarPrato!: boolean;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  tempoAdicional!: boolean;
+
+  @ApiPropertyOptional({ example: 'hotStarter' })
+  @IsString()
+  @IsOptional()
+  categoriaDuplicada?: string;
+}
 
 export class CreateEventosOrcamentoDto {
   @ApiProperty({
-    example: '665f1c7a0e8e4a7a8f2d1234',
-    description: 'ID do cliente no MongoDB',
+    type: ClienteResumoDto,
+    example: {
+      nome: 'Andrei Majada',
+      whatsapp: '53991473935',
+      email: 'andrei@email.com',
+    },
   })
-  @IsMongoId()
-  idCliente!: string;
+  @ValidateNested()
+  @Type(() => ClienteResumoDto)
+  cliente!: ClienteResumoDto;
 
-  @ApiProperty({
-    example: '2025-08-15',
-    description: 'Data do evento',
-  })
+  @ApiProperty({ example: '2026-05-29T03:00:00.000Z' })
   @IsDateString()
   dataEvento!: string;
 
-  @ApiProperty({
-    example: 'São Paulo',
-    maxLength: 100,
-  })
+  @ApiPropertyOptional({ example: 'dinner' })
+  @IsString()
+  @IsOptional()
+  turno?: string;
+
+  @ApiProperty({ example: 'João Pessoa' })
   @IsString()
   @IsNotEmpty()
-  @MaxLength(100)
   cidade!: string;
 
-  @ApiPropertyOptional({
-    example: 'Moema',
-    maxLength: 100,
-  })
-  @IsOptional()
+  @ApiPropertyOptional({ example: 'Tambaú' })
   @IsString()
-  @MaxLength(100)
+  @IsOptional()
   bairro?: string;
 
-  @ApiProperty({
-    example: 'Salão de festas',
-    maxLength: 50,
-  })
+  @ApiProperty({ example: 'apartment' })
   @IsString()
   @IsNotEmpty()
-  @MaxLength(50)
   tipoLocal!: string;
 
-  @ApiProperty({
-    example: 80,
-    minimum: 1,
-  })
-  @IsInt()
-  @Min(1)
+  @ApiProperty({ example: 12 })
+  @IsNumber()
   qtdPessoas!: number;
 
-  @ApiPropertyOptional({
-    example: 'Casamento',
-    maxLength: 100,
-  })
-  @IsOptional()
+  @ApiPropertyOptional({ example: 'Aniversário' })
   @IsString()
-  @MaxLength(100)
+  @IsOptional()
   ocasiao?: string;
 
-  @ApiPropertyOptional({
-    example: 'Local possui cozinha e área de apoio',
-  })
-  @IsOptional()
-  @IsString()
-  viabilidadeEstrutura?: string;
-
-  @ApiPropertyOptional({
-    example: 'Sem glúten, sem lactose',
-  })
-  @IsOptional()
-  @IsString()
-  restricoesAlimentares?: string;
+  @ApiProperty({ example: ['fridge', 'stove', 'counter'] })
+  @IsArray()
+  estruturaCozinha!: string[];
 
   @ApiProperty({
-    example: 12000,
-    minimum: 0,
+    type: RestricoesAlimentaresDto,
+    example: {
+      possuiRestricoes: true,
+      itens: ['Sem lactose', 'Sem glúten'],
+      observacoes: 'Cliente evita frutos do mar.',
+    },
   })
+  @ValidateNested()
+  @Type(() => RestricoesAlimentaresDto)
+  restricoesAlimentares!: RestricoesAlimentaresDto;
+
+  @ApiProperty({
+    type: MenuSelecionadoDto,
+    example: {
+      coldStarter: 'carpaccio-carne',
+      hotStarter: 'caldinho-camarao',
+      mainCourse: 'risoto-abobora',
+      dessert: 'panna-cotta',
+    },
+  })
+  @ValidateNested()
+  @Type(() => MenuSelecionadoDto)
+  menu!: MenuSelecionadoDto;
+
+  @ApiProperty({
+    type: PersonalizacaoServicoDto,
+    example: {
+      temDecoracao: true,
+      qtdGarcons: 2,
+      custoGarcons: 240,
+      mudouProteina: true,
+      duplicarPrato: false,
+      tempoAdicional: true,
+      categoriaDuplicada: 'mainCourse',
+    },
+  })
+  @ValidateNested()
+  @Type(() => PersonalizacaoServicoDto)
+  personalizacaoServico!: PersonalizacaoServicoDto;
+
+  @ApiProperty({ example: 4330 })
   @IsNumber()
-  @Min(0)
   valorEstimadoTotal!: number;
 
-  @ApiProperty({
-    example: 'rascunho',
-    maxLength: 50,
-  })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(50)
-  status!: string;
+  @ApiPropertyOptional({ example: StatusOrcamento.NOVO, enum: StatusOrcamento })
+  @IsEnum(StatusOrcamento)
+  @IsOptional()
+  status?: StatusOrcamento;
 }

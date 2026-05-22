@@ -16,17 +16,8 @@ export class EventosOrcamentosService {
 
   async create(createEventosOrcamentoDto: CreateEventosOrcamentoDto) {
     const evento = await this.eventoOrcamentoModel.create({
-      idCliente: new Types.ObjectId(createEventosOrcamentoDto.idCliente),
+      ...createEventosOrcamentoDto,
       dataEvento: new Date(createEventosOrcamentoDto.dataEvento),
-      cidade: createEventosOrcamentoDto.cidade,
-      bairro: createEventosOrcamentoDto.bairro,
-      tipoLocal: createEventosOrcamentoDto.tipoLocal,
-      qtdPessoas: createEventosOrcamentoDto.qtdPessoas,
-      ocasiao: createEventosOrcamentoDto.ocasiao,
-      viabilidadeEstrutura: createEventosOrcamentoDto.viabilidadeEstrutura,
-      restricoesAlimentares: createEventosOrcamentoDto.restricoesAlimentares,
-      valorEstimadoTotal: createEventosOrcamentoDto.valorEstimadoTotal,
-      status: createEventosOrcamentoDto.status,
     });
 
     return this.toResponse(evento);
@@ -35,15 +26,18 @@ export class EventosOrcamentosService {
   private toResponse(evento: EventoOrcamentoDocument) {
     return {
       id: evento._id.toString(),
-      idCliente: evento.idCliente.toString(),
+      cliente: evento.cliente,
       dataEvento: evento.dataEvento,
+      turno: evento.turno,
       cidade: evento.cidade,
       bairro: evento.bairro,
       tipoLocal: evento.tipoLocal,
       qtdPessoas: evento.qtdPessoas,
       ocasiao: evento.ocasiao,
-      viabilidadeEstrutura: evento.viabilidadeEstrutura,
+      estruturaCozinha: evento.estruturaCozinha,
       restricoesAlimentares: evento.restricoesAlimentares,
+      menu: evento.menu,
+      personalizacaoServico: evento.personalizacaoServico,
       valorEstimadoTotal: evento.valorEstimadoTotal,
       status: evento.status,
     };

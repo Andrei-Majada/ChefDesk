@@ -56,7 +56,11 @@ export class PratosCardapioService {
       slug: createPratosCardapioDto.slug,
       categoria: createPratosCardapioDto.categoria,
       descricao: createPratosCardapioDto.descricao,
-      tags: createPratosCardapioDto.tags ?? [],
+      perfilAlimentar: createPratosCardapioDto.perfilAlimentar ?? [],
+      estilo: createPratosCardapioDto.estilo ?? [],
+      imagem: createPratosCardapioDto.imagem,
+      custoAdicional: createPratosCardapioDto.custoAdicional ?? 0,
+      pratoDestaque: createPratosCardapioDto.pratoDestaque ?? false,
       status: createPratosCardapioDto.status ?? true,
     });
 
@@ -89,7 +93,11 @@ export class PratosCardapioService {
             id: string;
             name: string;
             description?: string;
-            tags: string[];
+            imagem?: string;
+            perfilAlimentar: string[];
+            estilo: string[];
+            custoAdicional: number;
+            pratoDestaque: boolean;
           }>;
         }
       >,
@@ -191,7 +199,11 @@ export class PratosCardapioService {
           slug: dish.id,
           categoria,
           descricao: dish.description,
-          tags: dish.tags || [],
+          perfilAlimentar: dish.perfilAlimentar || [],
+          estilo: dish.estilo || [],
+          imagem: dish.imagem,
+          custoAdicional: dish.custoAdicional || 0,
+          pratoDestaque: dish.pratoDestaque || false,
           status: true,
         };
 
@@ -211,14 +223,20 @@ export class PratosCardapioService {
   private toResponse(prato: PratoCardapioDocument) {
     return {
       id: prato._id.toString(),
-      name: prato.nome,
       nome: prato.nome,
+      name: prato.nome,
       slug: prato.slug,
-      description: prato.descricao,
       descricao: prato.descricao,
+      description: prato.descricao,
       categoria: prato.categoria,
+      perfilAlimentar: prato.perfilAlimentar ?? [],
+      estilo: prato.estilo ?? [],
+      imagem: prato.imagem,
+      custoAdicional: prato.custoAdicional ?? 0,
+      pratoDestaque: prato.pratoDestaque ?? false,
       status: prato.status,
-      tags: prato.tags ?? [],
+      criadoEm: prato.createdAt,
+      ultimaAtualizacao: prato.updatedAt,
     };
   }
 
@@ -227,7 +245,11 @@ export class PratosCardapioService {
       id: prato.slug,
       name: prato.nome,
       description: prato.descricao,
-      tags: prato.tags ?? [],
+      imagem: prato.imagem,
+      perfilAlimentar: prato.perfilAlimentar ?? [],
+      estilo: prato.estilo ?? [],
+      custoAdicional: prato.custoAdicional ?? 0,
+      pratoDestaque: prato.pratoDestaque ?? false,
     };
   }
 

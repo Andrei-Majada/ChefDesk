@@ -6,9 +6,11 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBody,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
@@ -17,14 +19,47 @@ import { PricingService } from './pricing.service';
 import { CalculateDto } from './dto/calculate.dto';
 import { CreateCalculateDto } from './dto/create-calculate.dto';
 import { UpdateCalculateDto } from './dto/update-calculate.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@ApiBearerAuth('JWT')
 @ApiTags('Pricing')
 @Controller('calculate')
 export class PricingController {
   constructor(private readonly pricingService: PricingService) {}
 
   @Post()
-  @ApiBody({ type: CreateCalculateDto })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiBody({
+    type: CreateCalculateDto,
+    schema: {
+      example: {
+        guests: 20,
+        event: {
+          kitchenItems: ['fridge', 'stove', 'counter'],
+          hasDecoration: true,
+          waiterCount: 3,
+          waiterCost: 120,
+          dietaryRestrictions: ['gluten-free', 'vegetarian'],
+          dietaryNotes: 'Sem lactose',
+          date: '2026-10-10',
+          shift: 'night',
+          city: 'São Paulo',
+          neighborhood: 'Pinheiros',
+          locationType: 'apartment',
+          occasion: 'Casamento',
+          hasDietaryRestrictions: true,
+        },
+        upsell: {
+          proteinUpgrade: true,
+          duplicateDish: false,
+          additionalTime: true,
+          duplicateCategory: 'mainCourse',
+        },
+        basePerPerson: 70,
+      },
+    },
+  })
   @ApiCreatedResponse({
     description: 'Created pricing calculation',
     type: CalculateDto,
@@ -52,7 +87,26 @@ export class PricingController {
   }
 
   @Patch(':id')
-  @ApiBody({ type: UpdateCalculateDto })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiBody({
+    type: UpdateCalculateDto,
+    schema: {
+      example: {
+        guests: 25,
+        basePerPerson: 75,
+        event: {
+          city: 'São Paulo',
+          date: '2026-12-05',
+          occasion: 'Aniversário',
+        },
+        upsell: {
+          proteinUpgrade: false,
+          duplicateDish: false,
+        },
+      },
+    },
+  })
   @ApiOkResponse({
     description: 'Updated pricing calculation',
     type: CalculateDto,

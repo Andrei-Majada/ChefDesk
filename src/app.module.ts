@@ -15,6 +15,8 @@ import { OptionsModule } from './options/options.module';
 import { PricingModule } from './pricing/pricing.module';
 import { ApiModule } from './api/api.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { NotificationsModule } from './notifications/notifications.module';
       }),
     }),
 
+    UsersModule,
+    AuthModule,
     ClientesModule,
     PratosCardapioModule,
     PersonalizacoesServicoModule,

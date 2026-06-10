@@ -25,11 +25,36 @@
 
 ChefDesk é uma plataforma de backoffice para personal chefs, criada para centralizar a gestão de clientes, cardápios, reservas, orçamentos e eventos em um só lugar. Simples, organizada e eficiente, ajuda o chef a cuidar da operação enquanto foca no que faz melhor: criar experiências gastronômicas memoráveis.
 
+## 🔐 Autenticação e Autorização
+
+O sistema implementa autenticação baseada em JWT (JSON Web Tokens) para proteger rotas administrativas:
+
+- **Todos os usuários são admins** por padrão
+- **Rotas administrativas protegidas** com JWT nas operações de criação e edição
+- **Endpoints públicos** para consultar dados (GET)
+- **Login** com username ou email
+
+**Documentação completa**: Veja [AUTH_README.md](AUTH_README.md)
+
 ## Project setup
 
 ```bash
+# Instalar dependências
 $ npm install
+
+# Configurar variáveis de ambiente
+# Criar arquivo .env (copiar de .env.example se disponível)
+# Adicionar: MONGO_URI, PORT e JWT_SECRET
+
+# Criar primeiro usuário (seed)
+$ npm run seed:user
 ```
+
+**Credenciais padrão** (após seed):
+
+- Username: `admin`
+- Email: `admin@chefdesk.com`
+- Senha: `admin123456` (⚠️ Altere após login)
 
 ## Compile and run the project
 
@@ -44,28 +69,127 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+## 📋 Endpoints Principais
 
-```bash
-# unit tests
-$ npm run test
+### Autenticação
 
-# e2e tests
-$ npm run test:e2e
+- `POST /auth/register` - Registrar novo usuário
+- `POST /auth/login` - Login com email/username
 
-# test coverage
-$ npm run test:cov
+### Categorias Menu (Requer JWT em POST)
+
+- `POST /categorias-menu` - Criar categoria ⚠️
+- `GET /categorias-menu` - Listar categorias
+
+### Pratos Cardápio (Requer JWT em POST/PATCH/DELETE)
+
+- `POST /pratos-cardapio` - Criar prato ⚠️
+- `GET /pratos-cardapio` - Listar pratos
+- `GET /pratos-cardapio/:id` - Obter prato
+- `PATCH /pratos-cardapio/:id` - Editar prato ⚠️
+- `DELETE /pratos-cardapio/:id` - Deletar prato ⚠️
+
+### Personalizações Serviço (Requer JWT em POST/PATCH/DELETE)
+
+- `POST /personalizacoes-servico` - Criar personalização ⚠️
+- `GET /personalizacoes-servico` - Listar personalizações
+- `PATCH /personalizacoes-servico/:id` - Editar personalização ⚠️
+- `DELETE /personalizacoes-servico/:id` - Deletar personalização ⚠️
+
+### Pricing (Requer JWT em POST/PATCH/DELETE)
+
+- `POST /calculate` - Criar cálculo de preço ⚠️
+- `GET /calculate` - Listar cálculos
+- `PATCH /calculate/:id` - Editar cálculo ⚠️
+- `DELETE /calculate/:id` - Deletar cálculo ⚠️
+
+⚠️ = Requer token JWT válido
+
+## 🧪 Testando com Swagger
+
+1. Acesse `http://localhost:3000/api`
+2. Clique no botão **"Authorize"** (cadeado 🔒)
+3. Cole o token no formato: `Bearer SEU_TOKEN_JWT`
+4. Teste os endpoints protegidos
+
+## 📝 Variáveis de Ambiente
+
+```env
+# Banco de dados
+MONGO_URI=mongodb+srv://usuario:senha@cluster.mongodb.net/database
+
+# Servidor
+PORT=3000
+
+# Autenticação JWT
+JWT_SECRET=sua-chave-secreta-super-segura
 ```
 
-## Deployment
+⚠️ **Em produção**: Altere `JWT_SECRET` para uma chave forte!
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Scripts Disponíveis
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+````bash
+# Tests
+$ npm run test              # unit tests
+$ npm run test:e2e          # e2e tests
+$ npm run test:cov          # test coverage
+
+# Seed
+$ npm run seed:pratos       # Seed de pratos cardápio
+$ npm run seed:user         # Seed de usuário admin
+
+# Desenvolvimento
+$ n🚀 Guia Rápido de Início
+
+### 1. Setup Inicial
+```bash
+npm install
+npm run seed:user
+npm run start:dev
+````
+
+### 2. Login
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -📚 Documentação
+
+- [Autenticação e Autorização](AUTH_README.md) - Guia completo de autenticação JWT
+- [NestJS Documentation](https://docs.nestjs.com) - Framework documentation
+- [API Swagger](http://localhost:3000/api) - Swagger UI (quando servidor estiver rodando)
+
+## 🏗️ Estrutura do Projeto
+
+```
+
+src/
+├── auth/ # Módulo de autenticação JWT
+├── users/ # Módulo de usuários
+├── categorias-menu/ # Gestão de categorias
+├── pratos-cardapio/ # Gestão de pratos
+├── personalizacoes-servico/ # Gestão de personalizações
+├── pricing/ # Cálculos de preço
+├── clientes/ # Gestão de clientes
+├── leads/ # Gestão de leads
+├── orcamentos/ # Gestão de orçamentos
+├── orcamento-draft/ # Rascunho de orçamentos
+└── notifications/ # Sistema de notificações
+
+```
+
+## Support
+
+Para suporte e documentação, consulte:
+
+- [NestJS Discord](https://discord.gg/G7Qnnhy) - Comunidade NestJS
+- [NestJS Docs](https://docs.nestjs.com) - Documentação oficial
+- [Autenticação JWT](AUTH_README.md) - Documentação local de autenticação
+
+## License
+
+ChefDesk é MIT licensed
 ```
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.

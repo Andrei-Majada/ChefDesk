@@ -10,6 +10,24 @@ export enum CategoriaPrato {
   DESSERT = 'dessert',
 }
 
+export enum PerfilAlimentar {
+  VEGETARIANO = 'vegetariano',
+  VEGANO = 'vegano',
+  SEM_GLUTEN = 'semGluten',
+  SEM_LACTOSE = 'semLactose',
+  PROTEINA_ANIMAL = 'proteinaAnimal',
+}
+
+export enum EstiloCulinario {
+  ITALIANO = 'italiano',
+  FRANCES = 'frances',
+  BRASILEIRO = 'brasileiro',
+  JAPONES = 'japones',
+  MEXICANO = 'mexicano',
+  FUSION = 'fusion',
+  CONTEMPORANEO = 'contemporaneo',
+}
+
 @Schema({ timestamps: true })
 export class PratoCardapio {
   @Prop({
@@ -45,9 +63,40 @@ export class PratoCardapio {
   @Prop({
     required: false,
     type: [String],
+    enum: Object.values(PerfilAlimentar),
     default: [],
   })
-  tags!: string[];
+  perfilAlimentar!: string[];
+
+  @Prop({
+    required: false,
+    type: [String],
+    enum: Object.values(EstiloCulinario),
+    default: [],
+  })
+  estilo!: string[];
+
+  @Prop({
+    required: false,
+    type: String,
+    trim: true,
+  })
+  imagem?: string;
+
+  @Prop({
+    required: false,
+    type: Number,
+    default: 0,
+    min: 0,
+  })
+  custoAdicional!: number;
+
+  @Prop({
+    required: false,
+    type: Boolean,
+    default: false,
+  })
+  pratoDestaque!: boolean;
 
   @Prop({
     required: false,
@@ -55,6 +104,18 @@ export class PratoCardapio {
     default: true,
   })
   status!: boolean;
+
+  @Prop({
+    required: false,
+    type: Date,
+  })
+  createdAt?: Date;
+
+  @Prop({
+    required: false,
+    type: Date,
+  })
+  updatedAt?: Date;
 }
 
 export const PratoCardapioSchema = SchemaFactory.createForClass(PratoCardapio);

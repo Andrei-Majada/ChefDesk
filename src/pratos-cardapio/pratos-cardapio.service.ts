@@ -111,9 +111,7 @@ export class PratosCardapioService {
   }
 
   async findAll(filters: FilterPratosCardapioDto) {
-    const query: Record<string, unknown> = {
-      status: true,
-    };
+    const query: Record<string, unknown> = {};
 
     if (filters.categoria) {
       query.categoria = new RegExp(

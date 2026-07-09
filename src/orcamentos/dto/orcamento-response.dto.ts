@@ -9,13 +9,13 @@ class PricingItemDto {
 }
 
 class ClienteResumoDto {
-  @ApiProperty({ example: 'Andrei Majada' })
+  @ApiProperty({ example: 'Fulano' })
   nome!: string;
 
   @ApiProperty({ example: '5511999999999' })
   whatsapp!: string;
 
-  @ApiPropertyOptional({ example: 'andrei@email.com' })
+  @ApiPropertyOptional({ example: 'fulano@email.com' })
   email?: string;
 }
 
@@ -57,6 +57,9 @@ class PersonalizacaoServicoDto {
 }
 
 export class OrcamentoResponseDto {
+  @ApiProperty({ example: '6871e3f50d5c4a1f7c445654' })
+  _id!: string;
+
   @ApiProperty({ type: ClienteResumoDto })
   cliente!: ClienteResumoDto;
 
@@ -136,4 +139,10 @@ export class OrcamentoResponseDto {
 
   @ApiPropertyOptional({ example: 'site' })
   origem?: string;
+
+  @ApiProperty({ example: '2026-07-09T12:00:00.000Z' })
+  createdAt!: string;
+
+  @ApiProperty({ example: '2026-07-09T12:30:00.000Z' })
+  updatedAt!: string;
 }

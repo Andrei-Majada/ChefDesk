@@ -2,13 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateLeadDto {
-  @ApiProperty({ example: 'Andrei Majada' })
+  @ApiProperty({ example: 'Fulano' })
   @IsString()
   @IsNotEmpty()
   @MaxLength(150)
   name!: string;
 
-  @ApiProperty({ example: '53991473935' })
+  @ApiProperty({ example: '53999999999' })
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)

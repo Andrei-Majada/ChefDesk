@@ -21,8 +21,8 @@ export class CreateOrcamentoDraftDto {
     example: {
       guests: 12,
       lead: {
-        name: 'Andrei Majada',
-        phone: '53991473935',
+        name: 'Fulano',
+        phone: '53999999999',
       },
     },
   })

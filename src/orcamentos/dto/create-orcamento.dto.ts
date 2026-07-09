@@ -15,19 +15,19 @@ import { Type } from 'class-transformer';
 import { StatusOrcamento } from '../schemas/orcamento.schema';
 
 class ClienteResumoDto {
-  @ApiProperty({ example: 'Andrei Majada' })
+  @ApiProperty({ example: 'Fulano' })
   @IsString()
   @IsNotEmpty()
   @MaxLength(150)
   nome!: string;
 
-  @ApiProperty({ example: '53991473935' })
+  @ApiProperty({ example: '53999999999' })
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)
   whatsapp!: string;
 
-  @ApiPropertyOptional({ example: 'andrei@email.com' })
+  @ApiPropertyOptional({ example: 'fulano@email.com' })
   @IsString()
   @IsOptional()
   @MaxLength(150)
@@ -106,9 +106,9 @@ export class CreateOrcamentoDto {
   @ApiProperty({
     type: ClienteResumoDto,
     example: {
-      nome: 'Andrei Majada',
-      whatsapp: '53991473935',
-      email: 'andrei@email.com',
+      nome: 'Fulano',
+      whatsapp: '53999999999',
+      email: 'fulano@email.com',
     },
   })
   @ValidateNested()

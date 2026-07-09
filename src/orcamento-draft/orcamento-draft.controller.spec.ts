@@ -1,17 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OrcamentoDraftController } from './orcamento-draft.controller';
-import { OrcamentoDraftService } from './orcamento-draft.service';
+import { OrcamentoDraftsController } from './orcamento-draft.controller';
+import { OrcamentoDraftsService } from './orcamento-draft.service';
 
-describe('OrcamentoDraftController', () => {
-  let controller: OrcamentoDraftController;
+describe('OrcamentoDraftsController', () => {
+  let controller: OrcamentoDraftsController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [OrcamentoDraftController],
-      providers: [OrcamentoDraftService],
+      controllers: [OrcamentoDraftsController],
+      providers: [
+        {
+          provide: OrcamentoDraftsService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
-    controller = module.get<OrcamentoDraftController>(OrcamentoDraftController);
+    controller = module.get<OrcamentoDraftsController>(
+      OrcamentoDraftsController,
+    );
   });
 
   it('should be defined', () => {

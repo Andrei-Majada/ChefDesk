@@ -8,12 +8,8 @@ import {
   StatusOrcamento,
 } from './schemas/orcamento.schema';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
+import { FindOrcamentosQueryDto } from './dto/find-orcamentos-query.dto';
 import { OrcamentoInput } from './types/orcamento-input.type';
-
-type FindAllFilters = {
-  status?: string;
-  whatsapp?: string;
-};
 
 @Injectable()
 export class OrcamentosService {
@@ -33,7 +29,7 @@ export class OrcamentosService {
     return this.model.create(payload);
   }
 
-  async findAll(filters: FindAllFilters): Promise<OrcamentoDocument[]> {
+  async findAll(filters: FindOrcamentosQueryDto): Promise<OrcamentoDocument[]> {
     const query: Record<string, any> = {};
 
     if (filters.status) {
@@ -42,6 +38,46 @@ export class OrcamentosService {
 
     if (filters.whatsapp) {
       query['cliente.whatsapp'] = filters.whatsapp;
+    }
+
+    if (filters.clienteNome) {
+      query['cliente.nome'] = { $regex: filters.clienteNome, $options: 'i' };
+    }
+
+    if (filters.cidade) {
+      query.cidade = { $regex: filters.cidade, $options: 'i' };
+    }
+
+    if (filters.origem) {
+      query.origem = { $regex: filters.origem, $options: 'i' };
+    }
+
+    if (filters.ocasiao) {
+      query.ocasiao = { $regex: filters.ocasiao, $options: 'i' };
+    }
+
+    if (filters.dataEventoFrom || filters.dataEventoTo) {
+      query.dataEvento = {};
+
+      if (filters.dataEventoFrom) {
+        query.dataEvento.$gte = new Date(filters.dataEventoFrom);
+      }
+
+      if (filters.dataEventoTo) {
+        query.dataEvento.$lte = new Date(filters.dataEventoTo);
+      }
+    }
+
+    if (filters.valorMin !== undefined || filters.valorMax !== undefined) {
+      query.valorEstimadoTotal = {};
+
+      if (filters.valorMin !== undefined) {
+        query.valorEstimadoTotal.$gte = filters.valorMin;
+      }
+
+      if (filters.valorMax !== undefined) {
+        query.valorEstimadoTotal.$lte = filters.valorMax;
+      }
     }
 
     return this.model.find(query).sort({ createdAt: -1 }).exec();

@@ -11,6 +11,7 @@ import { ApiTags, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { OrcamentoResponseDto } from './dto/orcamento-response.dto';
 import { OrcamentosService } from './orcamentos.service';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
+import { FindOrcamentosQueryDto } from './dto/find-orcamentos-query.dto';
 import { UpdateStatusOrcamentoDto } from './dto/update-status-orcamento.dto';
 
 @Controller('orcamentos')
@@ -26,11 +27,8 @@ export class OrcamentosController {
 
   @Get()
   @ApiOkResponse({ type: OrcamentoResponseDto, isArray: true })
-  findAll(
-    @Query('status') status?: string,
-    @Query('whatsapp') whatsapp?: string,
-  ) {
-    return this.service.findAll({ status, whatsapp });
+  findAll(@Query() query: FindOrcamentosQueryDto) {
+    return this.service.findAll(query);
   }
 
   @Get(':id')

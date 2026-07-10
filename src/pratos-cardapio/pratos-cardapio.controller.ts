@@ -25,7 +25,7 @@ export class PratosCardapioController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: CreatePratosCardapioDto,
     schema: {
@@ -68,7 +68,7 @@ export class PratosCardapioController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: UpdatePratosCardapioDto,
     schema: {

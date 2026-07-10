@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OptionsService } from './options.service';
 import { CreateOptionsDto } from './dto/create-options.dto';
 import { UpdateOptionsDto } from './dto/update-options.dto';
@@ -48,6 +51,8 @@ export class OptionsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @ApiBody({ type: UpdateOptionsDto })
   @ApiOkResponse({ description: 'Updated options', type: CreateOptionsDto })
   update(@Param('id') id: string, @Body() dto: UpdateOptionsDto) {
@@ -55,6 +60,8 @@ export class OptionsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @ApiOkResponse({ description: 'Deleted options' })
   remove(@Param('id') id: string) {
     return this.optionsService.remove(id);

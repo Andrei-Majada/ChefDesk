@@ -88,4 +88,14 @@ export class LeadsService {
   async findByPhone(phone: string) {
     return this.model.findOne({ phone }).exec();
   }
+
+  async remove(id: string) {
+    const lead = await this.model.findByIdAndDelete(id).exec();
+
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+
+    return { id: lead._id.toString() };
+  }
 }

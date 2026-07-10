@@ -24,7 +24,7 @@ export class PersonalizacoesServicoController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: CreatePersonalizacoesServicoDto,
     schema: {
@@ -59,7 +59,7 @@ export class PersonalizacoesServicoController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: UpdatePersonalizacoesServicoDto,
     schema: {
@@ -82,6 +82,8 @@ export class PersonalizacoesServicoController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   remove(@Param('id') id: string) {
     return this.personalizacoesServicoService.remove(id);
   }

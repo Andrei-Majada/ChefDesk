@@ -1,13 +1,21 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { FindLeadsQueryDto } from './dto/find-leads-query.dto';
@@ -41,11 +49,24 @@ export class LeadsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @ApiOkResponse({
     description: 'Lead updated',
     schema: { example: { id: '6871e3f50d5c4a1f7c445321' } },
   })
   update(@Param('id') id: string, @Body() dto: UpdateLeadDto) {
     return this.leadsService.update(id, dto);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
+  @ApiOkResponse({
+    description: 'Lead deleted',
+    schema: { example: { id: '6871e3f50d5c4a1f7c445321' } },
+  })
+  remove(@Param('id') id: string) {
+    return this.leadsService.remove(id);
   }
 }

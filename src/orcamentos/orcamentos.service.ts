@@ -9,6 +9,7 @@ import {
 } from './schemas/orcamento.schema';
 import { CreateOrcamentoDto } from './dto/create-orcamento.dto';
 import { FindOrcamentosQueryDto } from './dto/find-orcamentos-query.dto';
+import { UpdateOrcamentoDto } from './dto/update-orcamento.dto';
 import { OrcamentoInput } from './types/orcamento-input.type';
 
 @Injectable()
@@ -110,6 +111,39 @@ export class OrcamentosService {
         },
       )
       .exec();
+
+    if (!orcamento) {
+      throw new NotFoundException('Orçamento não encontrado.');
+    }
+
+    return orcamento;
+  }
+
+  async update(
+    id: string,
+    dto: UpdateOrcamentoDto,
+  ): Promise<OrcamentoDocument> {
+    const payload: Record<string, unknown> = { ...dto };
+
+    if (dto.dataEvento) {
+      payload.dataEvento = new Date(dto.dataEvento);
+    }
+
+    const orcamento = await this.model
+      .findByIdAndUpdate(id, payload, {
+        new: true,
+      })
+      .exec();
+
+    if (!orcamento) {
+      throw new NotFoundException('Orçamento não encontrado.');
+    }
+
+    return orcamento;
+  }
+
+  async remove(id: string): Promise<OrcamentoDocument> {
+    const orcamento = await this.model.findByIdAndDelete(id).exec();
 
     if (!orcamento) {
       throw new NotFoundException('Orçamento não encontrado.');

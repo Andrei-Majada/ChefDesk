@@ -29,7 +29,7 @@ export class PricingController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: CreateCalculateDto,
     schema: {
@@ -44,7 +44,7 @@ export class PricingController {
           dietaryNotes: 'Sem lactose',
           date: '2026-10-10',
           shift: 'night',
-          city: 'São Paulo',
+          city: 'SÃ£o Paulo',
           neighborhood: 'Pinheiros',
           locationType: 'apartment',
           occasion: 'Casamento',
@@ -88,7 +88,7 @@ export class PricingController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: UpdateCalculateDto,
     schema: {
@@ -96,9 +96,9 @@ export class PricingController {
         guests: 25,
         basePerPerson: 75,
         event: {
-          city: 'São Paulo',
+          city: 'SÃ£o Paulo',
           date: '2026-12-05',
-          occasion: 'Aniversário',
+          occasion: 'AniversÃ¡rio',
         },
         upsell: {
           proteinUpgrade: false,
@@ -116,6 +116,8 @@ export class PricingController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @ApiOkResponse({ description: 'Deleted pricing calculation' })
   remove(@Param('id') id: string) {
     return this.pricingService.remove(id);

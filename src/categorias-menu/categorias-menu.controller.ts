@@ -11,7 +11,7 @@ export class CategoriasMenuController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT')
   @ApiBody({
     type: CreateCategoriaMenuDto,
     schema: {
